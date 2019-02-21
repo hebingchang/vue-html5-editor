@@ -15,7 +15,7 @@ export default {
         height: {
             type: Number,
             default: 300,
-            validator(val){
+            validator(val) {
                 return val >= 100
             }
         },
@@ -29,7 +29,7 @@ export default {
         },
         showModuleName: {}
     },
-    data(){
+    data() {
         return {
             // defaultShowModuleName:false
             // locale: {},
@@ -46,7 +46,7 @@ export default {
             }
             this.$emit('update:content', val)
         },
-        fullScreen(val){
+        fullScreen(val) {
             const component = this
             if (val) {
                 component.parentEl = component.$el.parentNode
@@ -62,7 +62,7 @@ export default {
         }
     },
     computed: {
-        contentStyle(){
+        contentStyle() {
             const style = {}
             if (this.fullScreen) {
                 style.height = `${window.innerHeight - this.$refs.toolbar.clientHeight - 1}px`
@@ -77,22 +77,22 @@ export default {
         }
     },
     methods: {
-        toggleFullScreen(){
+        toggleFullScreen() {
             this.fullScreen = !this.fullScreen
         },
-        enableFullScreen(){
+        enableFullScreen() {
             this.fullScreen = true
         },
-        exitFullScreen(){
+        exitFullScreen() {
             this.fullScreen = false
         },
-        focus(){
+        focus() {
             this.$refs.content.focus()
         },
-        toggleDashboard(dashboard){
+        toggleDashboard(dashboard) {
             this.dashboard = this.dashboard === dashboard ? null : dashboard
         },
-        execCommand(command, arg){
+        execCommand(command, arg) {
             this.restoreSelection()
             if (this.range) {
                 new RangeHandler(this.range).execCommand(command, arg)
@@ -100,10 +100,13 @@ export default {
             this.toggleDashboard()
             this.$emit('change', this.$refs.content.innerHTML)
         },
-        getCurrentRange(){
+        emitBlur() {
+            this.$emit('blur')
+        },
+        getCurrentRange() {
             return this.range
         },
-        saveCurrentRange(){
+        saveCurrentRange() {
             const selection = window.getSelection ? window.getSelection() : document.getSelection()
             if (!selection.rangeCount) {
                 return
@@ -113,7 +116,7 @@ export default {
                 const range = selection.getRangeAt(0)
                 let start = range.startContainer
                 let end = range.endContainer
-                // for IE11 : node.contains(textNode) always return false
+                    // for IE11 : node.contains(textNode) always return false
                 start = start.nodeType === Node.TEXT_NODE ? start.parentNode : start
                 end = end.nodeType === Node.TEXT_NODE ? end.parentNode : end
                 if (content.contains(start) && content.contains(end)) {
@@ -122,7 +125,7 @@ export default {
                 }
             }
         },
-        restoreSelection(){
+        restoreSelection() {
             const selection = window.getSelection ? window.getSelection() : document.getSelection()
             selection.removeAllRanges()
             if (this.range) {
@@ -138,7 +141,7 @@ export default {
                 this.range = range
             }
         },
-        activeModule(module){
+        activeModule(module) {
             if (typeof module.handler === 'function') {
                 module.handler(this)
                 return
@@ -148,14 +151,14 @@ export default {
             }
         }
     },
-    created(){
+    created() {
         this.modules.forEach((module) => {
             if (typeof module.init === 'function') {
                 module.init(this)
             }
         })
     },
-    mounted(){
+    mounted() {
         const content = this.$refs.content
         content.innerHTML = this.content
         content.addEventListener('mouseup', this.saveCurrentRange, false)
@@ -176,13 +179,13 @@ export default {
 
         window.addEventListener('touchend', this.touchHandler, false)
     },
-    updated(){
+    updated() {
         // update dashboard style
-        if (this.$refs.dashboard){
+        if (this.$refs.dashboard) {
             this.$refs.dashboard.style.maxHeight = `${this.$refs.content.clientHeight}px`
         }
     },
-    beforeDestroy(){
+    beforeDestroy() {
         window.removeEventListener('touchend', this.touchHandler)
         this.modules.forEach((module) => {
             if (typeof module.destroyed === 'function') {
