@@ -16,6 +16,6 @@
             </keep-alive>
         </div>
     </div>
-    <div class="content" ref="content" :style="contentStyle" contenteditable @click="toggleDashboard(dashboard)" onblur="emitBlur">
+    <div class="content" ref="content" :style="contentStyle" contenteditable @click="toggleDashboard(dashboard)" @blur="emitBlur">
     </div>
 </div>
