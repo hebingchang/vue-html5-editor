@@ -7,7 +7,7 @@
                     <template v-if="showModuleName === undefined ? defaultShowModuleName : showModuleName">
                         &nbsp;{{locale[module.i18n]}}
                     </template>
-                </li>
+            </li>
             </template>
         </ul>
         <div class="dashboard" v-show="dashboard" ref="dashboard">
@@ -16,7 +16,6 @@
             </keep-alive>
         </div>
     </div>
-    <div class="content" ref="content" :style="contentStyle"
-         contenteditable @click="toggleDashboard(dashboard)">
+    <div class="content" ref="content" :style="contentStyle" contenteditable @click="toggleDashboard(dashboard)" onblur="$emit('blur')">
     </div>
 </div>
