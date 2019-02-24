@@ -1,4 +1,4 @@
-<div class="vue-html5-editor" :class="{'full-screen':fullScreen}" :style="{'z-index':zIndex}">
+<div class="vue-html5-editor" :class="{'full-screen':fullScreen}" :style="{'z-index':zIndex}" @blur="emitBlur">
     <div class="toolbar" :style="{'z-index':zIndex+1}" ref="toolbar">
         <ul>
             <template v-for="module in modules">
@@ -16,6 +16,6 @@
             </keep-alive>
         </div>
     </div>
-    <div class="content" ref="content" :style="contentStyle" contenteditable @click="toggleDashboard(dashboard)" @blur="emitBlur">
+    <div class="content" ref="content" :style="contentStyle" contenteditable @click="toggleDashboard(dashboard)">
     </div>
 </div>
