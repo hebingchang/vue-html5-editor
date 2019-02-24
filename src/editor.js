@@ -27,7 +27,10 @@ export default {
             type: Boolean,
             default: true
         },
-        showModuleName: {}
+        showModuleName: {},
+        axios: {
+            default: null
+        }
     },
     data() {
         return {
@@ -91,6 +94,36 @@ export default {
         },
         toggleDashboard(dashboard) {
             this.dashboard = this.dashboard === dashboard ? null : dashboard
+        },
+        onPaste(event) {
+            event.preventDefault();
+
+            var clipboardData;
+            clipboardData = event.clipboardData;
+            return Array.prototype.forEach.call(clipboardData.types, function(type, i) {
+                let file, reader;
+                console.log(type)
+                if (
+                    type.match(/image.*/) ||
+                    clipboardData.items[i].type.match(/image.*/)
+                ) {
+                    file = clipboardData.items[i].getAsFile();
+
+                    let formData = new FormData();
+                    formData.append("img", file);
+                    formData.append("file_name", file.name);
+
+                    this.axios
+                        .post("/api/image/upload", formData, {
+                            headers: {
+                                "Content-Type": "multipart/form-data"
+                            },
+                        })
+                        .then(response => {
+                            onSuccess(response.data.data, file);
+                        });
+                }
+            });
         },
         execCommand(command, arg) {
             this.restoreSelection()
