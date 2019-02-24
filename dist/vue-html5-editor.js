@@ -1,7 +1,7 @@
 /**
  * Vue-html5-editor 1.1.0
  * https://github.com/PeakTai/vue-html5-editor
- * build at Sun Feb 24 2019 23:40:34 GMT+0800 (GMT+08:00)
+ * build at Sun Feb 24 2019 23:52:17 GMT+0800 (GMT+08:00)
  */
 
 (function (global, factory) {
@@ -1293,8 +1293,10 @@ var editor = {
                             }
                         })
                         .then(function (response) {
-                            console.log(response);
+                            vm.$refs.content.innerHTML += "<img src=\"" + (response.data.data) + "\">";
                         });
+                } else {
+                    vm.$refs.content.innerHTML += (event.originalEvent || event).clipboardData.getData('text/html');
                 }
             })
         },

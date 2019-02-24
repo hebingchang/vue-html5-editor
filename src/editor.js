@@ -120,8 +120,10 @@ export default {
                             }
                         })
                         .then((response) => {
-                            console.log(response)
+                            vm.$refs.content.innerHTML += `<img src="${response.data.data}">`
                         })
+                } else {
+                    vm.$refs.content.innerHTML += (event.originalEvent || event).clipboardData.getData('text/html')
                 }
             })
         },
