@@ -96,15 +96,16 @@ export default {
             this.dashboard = this.dashboard === dashboard ? null : dashboard
         },
         onPaste(event) {
+            const vm = this
             event.preventDefault()
 
             const clipboardData = event.clipboardData
-            return Array.prototype.forEach.call(clipboardData.types, function (type, i) {
+            return Array.prototype.forEach.call(clipboardData.types, (type, i) => {
                 let file
                 console.log(type)
                 if (
-                    type.match(/image.*/) ||
-                    clipboardData.items[i].type.match(/image.*/)
+                    type === 'File' ||
+                    clipboardData.items[i].type === 'File'
                 ) {
                     file = clipboardData.items[i].getAsFile()
 
@@ -112,7 +113,7 @@ export default {
                     formData.append('img', file)
                     formData.append('file_name', file.name)
 
-                    this.axios
+                    vm.axios
                         .post('/api/image/upload', formData, {
                             headers: {
                                 'Content-Type': 'multipart/form-data'

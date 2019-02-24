@@ -1,7 +1,7 @@
 /**
  * Vue-html5-editor 1.1.0
  * https://github.com/PeakTai/vue-html5-editor
- * build at Sun Feb 24 2019 23:34:13 GMT+0800 (GMT+08:00)
+ * build at Sun Feb 24 2019 23:38:49 GMT+0800 (GMT+08:00)
  */
 
 (function (global, factory) {
@@ -1269,6 +1269,7 @@ var editor = {
             this.dashboard = this.dashboard === dashboard ? null : dashboard;
         },
         onPaste: function onPaste(event) {
+            var vm = this;
             event.preventDefault();
 
             var clipboardData = event.clipboardData;
@@ -1276,8 +1277,8 @@ var editor = {
                 var file;
                 console.log(type);
                 if (
-                    type.match(/image.*/) ||
-                    clipboardData.items[i].type.match(/image.*/)
+                    type === 'File' ||
+                    clipboardData.items[i].type === 'File'
                 ) {
                     file = clipboardData.items[i].getAsFile();
 
@@ -1285,7 +1286,7 @@ var editor = {
                     formData.append('img', file);
                     formData.append('file_name', file.name);
 
-                    this.axios
+                    vm.axios
                         .post('/api/image/upload', formData, {
                             headers: {
                                 'Content-Type': 'multipart/form-data'
