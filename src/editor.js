@@ -121,9 +121,11 @@ export default {
                         })
                         .then((response) => {
                             vm.$refs.content.innerHTML += `<img src="${response.data.data}">`
+                            vm.$emit('change', vm.$refs.content.innerHTML)
                         })
                 } else {
                     vm.$refs.content.innerHTML += (event.originalEvent || event).clipboardData.getData('text/html')
+                    vm.$emit('change', vm.$refs.content.innerHTML)
                 }
             })
         },
