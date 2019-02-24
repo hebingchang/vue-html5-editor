@@ -104,8 +104,8 @@ export default {
                 let file
                 console.log(type)
                 if (
-                    type === 'File' ||
-                    clipboardData.items[i].type === 'File'
+                    type === 'Files' ||
+                    clipboardData.items[i].type === 'Files'
                 ) {
                     file = clipboardData.items[i].getAsFile()
 
